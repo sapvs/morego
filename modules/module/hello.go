@@ -1,7 +1,15 @@
 package hello
 
-import "rsc.io/quote"
+import (
+	"fmt"
+	"rsc.io/quote/v3"
+)
 
 func Hello() string {
-    return quote.Hello()
+	fmt.Println(quote.HelloV3())
+	return quote.HelloV3()
+}
+
+func Proverb() string {
+	return quote.Concurrency()
 }
