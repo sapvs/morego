@@ -13,3 +13,8 @@ func Hello() string {
 func Proverb() string {
 	return quote.Concurrency()
 }
+
+func main() {
+	Hello()
+	Proverb()
+}
