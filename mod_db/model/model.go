@@ -31,6 +31,7 @@ type Order struct {
 
 func (user *User) GetUser(db *gorm.DB) User {
 	var retUser User
+	//db.Where(&User{Username: user.Username}).Preload("Order", "price like (?)", "123%").First(&retUser)
 	db.Where(&User{Username: user.Username}).First(&retUser)
 	return retUser
 }
