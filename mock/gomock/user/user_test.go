@@ -5,7 +5,7 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/sudosapan/mock/mocks"
-	"github.com/sudosapan/mock/user""github.com/sudosapan/mock/mocks"
+	"github.com/sudosapan/mock/user"
 )
 
 func TestUserWithGoMock(t *testing.T) {

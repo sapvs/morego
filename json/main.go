@@ -20,8 +20,4 @@ func main() {
 	res1B, _ := json.MarshalIndent(res1D, " ", "    ")
 	fmt.Println(string(res1B))
 
-	err := error.Error("dasd")
-	
-
-
 }
