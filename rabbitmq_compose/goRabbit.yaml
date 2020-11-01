@@ -1,0 +1,77 @@
+# Generation of Kubernetes YAML is still under development!
+#
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-1.9.3
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2020-10-30T04:07:57Z"
+  labels:
+    app: goRabbitPod
+  name: goRabbitPod
+spec:
+  containers:
+  # Go container
+    - env:
+        - name: HOSTNAME
+          value: gorabbit_1
+        - name: container
+          value: podman
+      image: localhost/gorabbit:0.1
+      name: gorabbit_1
+      ports:
+        - containerPort: 8080
+          hostPort: 8080
+          protocol: TCP
+      resources: {}
+      securityContext:
+        allowPrivilegeEscalation: true
+        capabilities: {}
+        privileged: false
+        readOnlyRootFilesystem: false
+        seLinuxOptions: {}
+      workingDir: /
+# Rabbiot 
+    - command:
+        - rabbitmq-server
+      env:
+        - name: HOSTNAME
+          value: my-rabbit
+      image: docker.io/library/rabbitmq:3-management-alpine
+      name: some-rabbit
+      ports:
+        - containerPort: 15672
+          hostPort: 15672
+          protocol: TCP
+        - containerPort: 5672
+          hostPort: 5672
+          protocol: TCP
+      startupProbe:
+        tcpSocket:
+        port: 7654
+        initialDelaySeconds: 5
+        periodSeconds: 10
+      livenessProbe:
+        tcpSocket:
+          port: 5672
+        initialDelaySeconds: 15
+        periodSeconds: 20
+      resources: {}
+      volumeMounts:
+        - mountPath: /var/lib/rabbitmq
+          name: rabbit-data
+      securityContext:
+        allowPrivilegeEscalation: true
+        capabilities: {}
+        privileged: false
+        readOnlyRootFilesystem: false
+        seLinuxOptions: {}
+      workingDir: /
+  volumes:
+    - name: rabbit-data
+      hostPath:
+        path: ./rabbit-data
+        type: DirectoryOrCreate
+status: {}

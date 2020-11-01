@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 )
 
 func main() {
 	http.HandleFunc("/", handler)
-	http.ListenAndlsServe(":8080", nil)
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 func router() {}

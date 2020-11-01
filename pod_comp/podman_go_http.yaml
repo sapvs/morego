@@ -13,6 +13,7 @@ metadata:
   name: gohttp
 spec:
   containers:
+  # Go container
     - env:
         - name: HOSTNAME
           value: go_http_1
@@ -32,7 +33,7 @@ spec:
         readOnlyRootFilesystem: false
         seLinuxOptions: {}
       workingDir: /
-
+  # Go container 2 // to be Rabiitmq container soon
     - env:
         - name: HOSTNAME
           value: go_http_2
