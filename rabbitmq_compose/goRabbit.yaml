@@ -33,7 +33,7 @@ spec:
         readOnlyRootFilesystem: false
         seLinuxOptions: {}
       workingDir: /
-# Rabbiot 
+# Rabbit 
     - command:
         - rabbitmq-server
       env:
@@ -50,7 +50,7 @@ spec:
           protocol: TCP
       startupProbe:
         tcpSocket:
-        port: 7654
+        port: 5672
         initialDelaySeconds: 5
         periodSeconds: 10
       livenessProbe:
@@ -61,7 +61,7 @@ spec:
       resources: {}
       volumeMounts:
         - mountPath: /var/lib/rabbitmq
-          name: rabbit-data
+          name: rabbit_data
       securityContext:
         allowPrivilegeEscalation: true
         capabilities: {}
@@ -70,8 +70,8 @@ spec:
         seLinuxOptions: {}
       workingDir: /
   volumes:
-    - name: rabbit-data
+    - name: rabbit_data
       hostPath:
-        path: ./rabbit-data
+        path: ./rabbit_data
         type: DirectoryOrCreate
 status: {}

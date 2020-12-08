@@ -1,0 +1,46 @@
+# Generation of Kubernetes YAML is still under development!
+#
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-2.0.5
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2020-11-04T13:28:32Z"
+  labels:
+    app: goelkpod
+  name: goelkpod
+spec:
+  containers:
+    - name: elasticsearch
+      env:
+        - name: PATH
+          value: /usr/share/elasticsearch/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+        - name: TERM
+          value: xterm
+        - name: ELASTIC_CONTAINER
+          value: "true"
+        - name: container
+          value: podman
+        - name: discovery.type
+          value: single-node
+        - name: HOSTNAME
+          value: goelkpod
+      image: docker.io/library/elasticsearch:7.9.3
+      ports:
+        - containerPort: 9200
+          hostPort: 9200
+          protocol: TCP
+        - containerPort: 9300
+          hostPort: 9300
+          protocol: TCP
+      resources: {}
+      securityContext:
+        allowPrivilegeEscalation: true
+        capabilities: {}
+        privileged: false
+        readOnlyRootFilesystem: false
+        seLinuxOptions: {}
+      workingDir: /usr/share/elasticsearch
+status: {}

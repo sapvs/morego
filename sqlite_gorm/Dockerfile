@@ -5,7 +5,7 @@ ADD . /app
 WORKDIR /app
 RUN go build -o main
 
-FROM alpine:latest AS production 
+FROM alpine:3.12 AS production 
 COPY --from=builder /app .
 
 RUN apk update \
