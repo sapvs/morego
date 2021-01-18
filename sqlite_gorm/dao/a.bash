@@ -1,2 +1,0 @@
-read A 
-read X

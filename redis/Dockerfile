@@ -11,7 +11,7 @@ ADD . /app
 RUN go build -o main
 
 FROM alpine:3.12 AS production 
-ENV REDIS_ADDR=localhost:6379
+ENV REDIS_ADDR=redis:6379
 COPY --from=builder /app/main .
 
 ENTRYPOINT [ "./main" ]

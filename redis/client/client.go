@@ -1,15 +1,17 @@
 package client
 
 import (
+	"context"
 	"log"
 	"os"
 
-	"github.com/go-redis/redis"
+	"github.com/go-redis/redis/v8"
 )
 
 var (
 	client    *redis.Client
-	redisAddr string = os.Getenv("REDIS_ADDR")
+	redisAddr string          = os.Getenv("REDIS_ADDR")
+	ctx       context.Context = context.Background()
 )
 
 func connect() {
@@ -17,14 +19,19 @@ func connect() {
 		return
 	}
 	log.Printf("Connecting redis at %s\n", redisAddr)
-	client = redis.NewClient(&redis.Options{Addr: redisAddr, Password: "", DB: 0})
+	client = redis.NewClient(
+		&redis.Options{
+			Addr:     redisAddr,
+			Password: "",
+			DB:       0,
+		},
+	)
 
 	if checkConnected() {
 		log.Printf("Connected to redis at %s ", redisAddr)
 	} else {
 		log.Printf("Could not connect to redis at %s ", redisAddr)
 	}
-
 }
 
 func checkConnected() bool {
@@ -32,7 +39,7 @@ func checkConnected() bool {
 		return false
 	}
 
-	_, err := client.Ping().Result()
+	_, err := client.Ping(ctx).Result()
 	if err != nil {
 		log.Printf("redis ping to %s failed due to %v\n", redisAddr, err.Error())
 		return false
@@ -46,7 +53,7 @@ func init() {
 
 //Set sets value to a key, overwrites if exists.
 func Set(key string, value string) error {
-	err := client.Set(key, value, 0).Err()
+	err := client.Set(ctx, key, value, 0).Err()
 	if err != nil {
 		log.Printf("Could not set %s to %s due to %v\n", value, key, err.Error())
 		return err
@@ -58,9 +65,9 @@ func Set(key string, value string) error {
 
 //Get gets value to a key, return nil if not found.
 func Get(key string) (string, error) {
-	value := client.Get(key)
-	err := value.Err()
-	if err != nil {
+	value := client.Get(ctx, key)
+
+	if err := value.Err(); err != nil {
 		log.Printf("Could not get value for %s due to %v\n", key, err.Error())
 		return "", err
 	}
@@ -70,6 +77,24 @@ func Get(key string) (string, error) {
 }
 
 //Add appends value to a key, .
-func Add(key string, value string) error {
+func Add(key string, value string) (string, error) {
+	appendValue := client.Append(ctx, key, value)
+	if err := appendValue.Err(); err != nil {
+		log.Printf("Could not append value for %s due to %v\n", key, err)
+		return "", err
+	}
+	return appendValue.String(), nil
+}
+
+//Del deletes the key
+func Del(key string) error {
+	value := client.Del(ctx, key)
+
+	if err := value.Err(); err != nil {
+		log.Printf("Could not get value for %s due to %v\n", key, err.Error())
+		return err
+	}
+
+	log.Printf("Deleted Key %s\n", key)
 	return nil
 }

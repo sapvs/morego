@@ -3,8 +3,8 @@ kind: Pod
 metadata:
   creationTimestamp: "2020-10-30T04:07:57Z"
   labels:
-    app: goRedisPod
-  name: goRedisPod
+    app: goredispod
+  name: goredispod
 spec:
   containers:
   # Go container
