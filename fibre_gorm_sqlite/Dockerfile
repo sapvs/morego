@@ -1,8 +1,4 @@
-FROM golang:1.15.2-alpine3.12 AS builder
-
-LABEL author="sudosapan@gmail.com"
-
-RUN apk add --no-cache gcc musl-dev
+FROM golang:1.15.2-alpine-gcc-3.12 AS builder
 
 RUN mkdir /app
 WORKDIR /app
