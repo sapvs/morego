@@ -1,4 +1,3 @@
-module github.com/sudosapan/hrnk
-
+module github.com/sudosapan/morego/hrnk
 
 go 1.15

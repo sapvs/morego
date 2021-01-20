@@ -1,4 +1,4 @@
-FROM golang:1.15.2-alpine-gcc-3.12 AS builder
+FROM sudosapan/go-alpine-gcc:latest AS builder
 
 RUN mkdir /app
 WORKDIR /app
