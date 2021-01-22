@@ -15,6 +15,7 @@ type user struct {
 }
 
 func getUsers(users []user, filter func(u *user) bool, sort bool) []user {
+	return nil
 
 }
 func main() {

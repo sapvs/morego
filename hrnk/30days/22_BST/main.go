@@ -27,7 +27,7 @@ func insert(root *node, value int) *node {
 
 func printPretty(root *node) {
 	// to print
-	h := height(root)
+	height(root)
 
 }
 
