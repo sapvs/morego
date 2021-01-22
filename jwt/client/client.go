@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -13,7 +14,7 @@ import (
 
 var (
 	client *http.Client
-	server string = "http://localhost:8080"
+	server string = os.Getenv("SERVER_URL")
 )
 
 func main() {
