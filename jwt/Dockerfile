@@ -5,7 +5,6 @@ WORKDIR /app
 # Supplied as dockerbuild arg for creating specific image
 ARG MAIN_FILE
 
-COPY go.mod . 
 COPY go.sum .
 RUN go mod download
 

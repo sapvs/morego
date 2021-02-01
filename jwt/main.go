@@ -5,8 +5,9 @@ import (
 	"log"
 	"time"
 
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 func main() {
@@ -14,7 +15,7 @@ func main() {
 }
 
 func db(name string) *gorm.DB {
-	db, err := gorm.Open("sqlite3", name)
+	db, err := gorm.Open(nil, &gorm.Config{Dialector: sqlite.Open(name)})
 	if err != nil {
 		log.Fatalf("failed to connect database %v", err)
 	}
@@ -40,9 +41,9 @@ func mysql() {
 	}
 
 	db := db("mysql.db")
-	defer db.Close()
 
-	db.DropTableIfExists(
+	db.Logger.LogMode(logger.Error)
+	db.Migrator().DropTable(
 		&User{},
 		&Address{},
 		&Country{},
@@ -89,35 +90,21 @@ func (t ClientType) String() string {
 	return [...]string{"User", "Service"}[t]
 }
 
-// func (t ClientType) Value() (driver.Value, error) {
-
-// 	log.Printf("Value called with %d", t)
-// 	return int64(2), nil
-
-// }
-// func (t *ClientType) Scan(v interface{}) error {
-// 		*t = 2
-// 	return nil
-// }
-
 func customtype() {
 
 	db := db("customtype.db")
-	defer db.Close()
-	db.LogMode(false)
 
-	db.DropTableIfExists(
+	db.Migrator().DropTable(
 		&Client{},
 	)
 
 	log.Println("Dropped")
-	db.AutoMigrate(
+	db.Migrator().AutoMigrate(
 		&Client{},
 	)
 
 	var client Client
 
-	db.LogMode(true)
 	fmt.Println("Creating")
 	if err := db.Create(&Client{ClientID: 9, UserID: 8, ClientType: USER, CreatedAt: time.Now()}).Error; err != nil {
 		log.Fatalf("Erro creating %v", err)
