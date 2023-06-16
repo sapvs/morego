@@ -14,8 +14,8 @@ var (
 )
 
 const (
-	retries   int = 3
-	retryTime     = 5
+	RETRIES    int           = 3
+	RETRY_TIME time.Duration = 5
 )
 
 // TODO this is single channle for testing need to send it to client
@@ -39,7 +39,7 @@ func ConnectRabbit(rcp *RabbitConnectionProperties) error {
 	log.Print("Connecting to rabbit")
 	var try int = 1
 	var err error
-	for try <= retries {
+	for try <= RETRIES {
 		log.Printf("Connecting rabbit %d time", try)
 		log.Print("Connecting to rabbit not connected yet")
 		rabbitConn, err = amqp.Dial(rcp.amqpURL())
@@ -49,7 +49,7 @@ func ConnectRabbit(rcp *RabbitConnectionProperties) error {
 		}
 		try++
 		log.Print("Sleeping ")
-		time.Sleep(retryTime * time.Second)
+		time.Sleep(RETRY_TIME * time.Second)
 	}
 
 	if err != nil {
@@ -77,7 +77,7 @@ func DeclareQueue(queueName string) error {
 // PostMessage sends message to rabbit
 func PostMessage(exchange string, queue string, message string) error {
 	if rabbitConn == nil || rabbitConn.IsClosed() {
-		return errors.New("No connection to tabbit")
+		return errors.New("no connection to tabbit")
 	}
 	if err := channel.Publish(exchange, queue, false, false, amqp.Publishing{ContentType: "text/plain", Body: []byte(message)}); err != nil {
 		return err
@@ -92,6 +92,7 @@ func CloseRabbitResources() error {
 	if err != nil {
 		return err
 	}
+
 	log.Print("Channel closed")
 
 	if !rabbitConn.IsClosed() {

@@ -3,7 +3,7 @@ package common
 import (
 	"log"
 
-	"github.com/dgrijalva/jwt-go"
+	"github.com/dgrijalva/jwt-go/v4"
 )
 
 var keys = map[string][]byte{

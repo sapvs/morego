@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/dgrijalva/jwt-go"
-	"github.com/sudosapan/morego/jwt/common"
+	"github.com/dgrijalva/jwt-go/v4"
+	"github.com/sapvs/morego/jwt/common"
 )
 
 func homePage(w http.ResponseWriter, r *http.Request) {

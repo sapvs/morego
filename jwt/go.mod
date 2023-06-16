@@ -1,9 +1,9 @@
-module github.com/sudosapan/morego/jwt
+module github.com/sapvs/morego/jwt
 
 go 1.15
 
 require (
-	github.com/dgrijalva/jwt-go v3.2.1
-	gorm.io/driver/sqlite v1.1.4
-	gorm.io/gorm v1.20.12
+	github.com/golang-jwt/jwt/v4 v4.4.2 // indirect
+	gorm.io/driver/sqlite v1.3.6
+	gorm.io/gorm v1.23.8
 )

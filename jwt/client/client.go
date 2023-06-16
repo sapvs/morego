@@ -8,8 +8,8 @@ import (
 	"os"
 	"time"
 
-	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/sudosapan/morego/jwt/common"
+	"github.com/golang-jwt/jwt/v4"
+	"github.com/sapvs/morego/jwt/common"
 )
 
 var (
