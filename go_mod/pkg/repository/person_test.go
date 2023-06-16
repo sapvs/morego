@@ -7,8 +7,8 @@ import (
 
 	"github.com/Rosaniline/gorm-ut/pkg/model"
 	"github.com/go-test/deep"
+	uuid "github.com/google/uuid"
 	"github.com/jinzhu/gorm"
-	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 	"gopkg.in/DATA-DOG/go-sqlmock.v1"

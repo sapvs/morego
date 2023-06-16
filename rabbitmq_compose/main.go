@@ -21,7 +21,6 @@ var done = make(chan bool)
 
 func rootpath(w http.ResponseWriter, r *http.Request) {
 	log.Print("Received request at /")
-	log.Print("Seever request at /")
 }
 
 func publish(w http.ResponseWriter, r *http.Request) {
@@ -32,11 +31,11 @@ func publish(w http.ResponseWriter, r *http.Request) {
 
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Printf("Coudl not reads body %v", err)
+		log.Printf("Could not read body %v", err)
 		return
 	}
 	message := string(data)
-	log.Printf("MEssage received %s", message)
+	log.Printf("MEssage received %s\n", message)
 	if err = infra.PostMessage("", myqueue, message); err != nil {
 		log.Printf("Coudl not send mesasge %v", err)
 	}
@@ -79,12 +78,12 @@ func main1() {
 }
 
 func signalHandler() {
-	log.Print("Starting signal listener")
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGTERM, syscall.SIGINT)
+	log.Print("Waiting for term or int signal")
 	sig := <-sigs
-	log.Printf("Recieved %v signal", sig)
-	log.Print("Closing rabbit resources ")
+	log.Printf("Recieved %v signal; Closing rabbit resources\n", sig)
+
 	if err := infra.CloseRabbitResources(); err != nil {
 		log.Printf("Could not close rabbit due to %v ", err)
 	}

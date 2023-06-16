@@ -2,8 +2,8 @@ package repository
 
 import (
 	"github.com/Rosaniline/gorm-ut/pkg/model"
+	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
-	"github.com/satori/go.uuid"
 )
 
 type Repository interface {
